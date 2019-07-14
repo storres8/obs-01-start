@@ -30,15 +30,32 @@ export class HomeComponent implements OnInit, OnDestroy {
       setInterval(() => {
         // .next(count) will be triggered whenever the count variable is updated.
         observer.next(count);
+        // setting up a coomplete signal for our observer.
+        if (count === 2) {
+          // once an obvservable is complete it no longer continues to emite values.
+          observer.complete();
+        }
+        // creating a fake error to catch later on in the obervable below.
+        if (count >= 3) {
+          observer.error(new Error("Number can not go above 3!"));
+        }
         count++;
       }, 1000);
     });
 
     // subscribing to our custom observable & saving this subscription into a private property to be able to
     // unsubscribe from the observable once we leave the component.
-    this.firstObsSubscription = customIntervalObservable.subscribe(newData => {
-      console.log(newData);
-    });
+    this.firstObsSubscription = customIntervalObservable.subscribe(
+      newData => {
+        console.log(newData);
+      },
+      // catching any error thrown, and then running some code with it.
+      // important to note that once an error is thrown from our observable that it no longer continues
+      // and the entire flow of data stops.
+      error => {
+        console.log(error);
+      }
+    );
   }
 
   // ngOnDestroy allows us to run a function upoun us leaving this specific component.
