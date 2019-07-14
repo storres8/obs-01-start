@@ -22,6 +22,7 @@ export class UserComponent implements OnInit {
   }
 
   onActivate() {
-    this.userService.activatedEmitter.emit(true);
+    // a service is a type of Obervable so we can use the .next() on it.
+    this.userService.activatedEmitter.next(true);
   }
 }
