@@ -54,6 +54,11 @@ export class HomeComponent implements OnInit, OnDestroy {
       // and the entire flow of data stops.
       error => {
         console.log(error);
+      },
+      // handler function for completion doesn't take any arguments.
+      // important to note that the completed handler does not go off id an error is thrown.
+      () => {
+        console.log("COMPLETE!");
       }
     );
   }
